@@ -41,31 +41,26 @@ bool KmHttp::request(){
   while(Client.connected() && !Client.available()){delay(1);}
 
   d=Client.readStringUntil('\r');
-  if(d==""){return false;} for(i=0; i<9; i++){Req[i]="";}
+  if(d==""){return false;} for(i=0; i<9; i++){Buf[i]="";}
   int addr_start=d.indexOf(' ');
   int addr_end=d.indexOf(' ', addr_start + 1);
   if (addr_start == -1 || addr_end == -1) {return false;}
   d=d.substring(addr_start + 1, addr_end); Data=d;
   Client.flush();
-  j=0; Req[j]=""; for(i=0; i<d.length(); i++){
+  j=0; Buf[j]=""; for(i=0; i<d.length(); i++){
     x=d.charAt(i);
-    if(x=="/"){j++; if(j>8){break;} Req[j]="";}else{Req[j].concat(x);}
+    if(x=="/"){j++; if(j>8){break;} Buf[j]="";}else{Buf[j].concat(x);}
   }
   return true;
 }
 
-void KmHttp::send(int rc, String data){
+void KmHttp::send(int rc, int num, String data[]){
   String out, x; out="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
-//  sprintf(
-//    x, "{\"cd\":%d,\"hum\":%d,\"tmp\": %d, \"data\":\"%s\"}", rc, Dht_hum, Dht_tmp, data
-//  );
   out.concat("{\"cd\":"); out.concat(rc);
-  out.concat(",\"hum\":"); out.concat(Humidity);
-  out.concat(",\"tmp\":"); out.concat(Temperature);
-  out.concat(",\"lux\":"); out.concat(Lux);
-  out.concat(",\"person\":"); out.concat(Person);
-  out.concat(",\"pressure\":"); out.concat(Pressure);
-  out.concat(",\"data\":"); out.concat(data);
+  for(int i=0; i<num; i++){
+    out.concat(",\""); out.concat(data[i]); out.concat("\":");
+    out.concat("\""); out.concat(data[i+1]); out.concat("\"");
+  }
   out.concat("}"); Client.print(out);
 }
 

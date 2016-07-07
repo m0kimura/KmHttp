@@ -17,13 +17,13 @@ class KmHttp{
     KmHttp(int i3, int i4, String ssid, String psw);
     bool begin();
     bool request();
-    void send(int rc, String data);
+    void send(int rc, int num, String data[]);
     bool get(String host, int port, String url);
     bool post(String host, int port, String url, String dara);
     bool debug(String msg);
     void encode(String data);
 
-    String Req[9];
+    String Buf[9];
     String Data;
     int Humidity;
     int Temperature;
