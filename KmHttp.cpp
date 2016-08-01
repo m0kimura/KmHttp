@@ -58,8 +58,8 @@ void KmHttp::send(int rc, int num, String data[]){
   String out, x; out="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
   out.concat("{\"cd\":"); out.concat(rc);
   for(int i=0; i<num; i++){
-    out.concat(",\""); out.concat(data[i]); out.concat("\":");
-    out.concat("\""); out.concat(data[i+1]); out.concat("\"");
+    out.concat(",\""); out.concat(data[i*2]); out.concat("\":");
+    out.concat("\""); out.concat(data[i*2+1]); out.concat("\"");
   }
   out.concat("}"); Client.print(out);
 }
