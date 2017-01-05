@@ -22,9 +22,11 @@ class KmHttp{
     bool post(String host, int port, String url, String dara);
     bool debug(String msg);
     void encode(String data);
+    int unstring(String txt);
 
     String Buf[9];
     String Data;
+    String Item[9];
     int Humidity;
     int Temperature;
     int Lux;

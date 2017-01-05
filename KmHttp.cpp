@@ -99,6 +99,27 @@ bool KmHttp::post(String host, int port, String url, String data){
   }
   return true;
 }
+int KmHttp::unstring(String txt){
+
+  int i, j;
+  char x;
+  String w;
+
+  txt.concat(","); j=0; w="";
+  for(i=0; i<txt.length(); i++){
+    x=txt.charAt(i);
+    if(x==44){
+      if(j<9){
+        Item[j]=w;
+        j++; w="";
+      }
+    }else{
+      w.concat(x);
+    }
+  }
+  return j;
+}
+
 
 bool KmHttp::debug(String msg){
   return KmHttp::get(Debugger, DebuggerPort, "/log/"+msg);
